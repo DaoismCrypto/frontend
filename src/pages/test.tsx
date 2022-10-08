@@ -6,7 +6,7 @@ export default function TestPage() {
     <>
       <Grid alignItems='center' container width='100%'>
         <Grid item xs={12}>
-          <BalanceCard amount={0.05} />
+          <BalanceCard tokenName='Hi' />
         </Grid>
       </Grid>
     </>
