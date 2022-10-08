@@ -78,6 +78,11 @@ const navigation = (): VerticalNavItemsType => {
       icon: CubeOutline,
       title: 'Landing',
       path: '/landing'
+    },
+    {
+      icon: CubeOutline,
+      title: 'Test',
+      path: '/test'
     }
   ]
 }

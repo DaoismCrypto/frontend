@@ -1,16 +1,45 @@
 import BalanceCard from '../components/BalanceCard'
-import { Grid, TextField, IconButton, InputAdornment, Typography } from '@mui/material'
+import { Grid, TextField, IconButton, InputAdornment, Typography, Modal, Divider, Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { getMyBalance } from 'src/api'
-import { Filter, Magnify, Sort } from 'mdi-material-ui'
+import { getMyBalance, list, mint } from 'src/api'
+import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
 export default function TestPage() {
   useEffect(() => {
     getMyBalance('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
+    // test('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
   }, [])
 
   const [sort, setSort] = useState<string | null>(null)
   const [showSort, setShowSort] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const modal = (title: string, subtitle: string) => {
+    return (
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box className='modal'>
+          <Grid className='modal__content'>
+            <Grid item xs>
+              <Typography variant='h6' component='h2' className='modal__title'>
+                {title}
+              </Typography>
+              {subtitle && (
+                <Typography variant='body1' className='modal__subtitle'>
+                  {subtitle}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={5}>
+              <IconButton onClick={() => setOpen(false)}>
+                <Close />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <Divider />
+        </Box>
+      </Modal>
+    )
+  }
 
   return (
     <>
@@ -41,9 +70,10 @@ export default function TestPage() {
         </Grid>
         {/* <Grid item xs={2} alignItems='center' display='flex' height='100%'></Grid> */}
         <Grid item xs={12}>
-          <BalanceCard tokenName='Coin Name' />
+          <BalanceCard tokenName='Coin Name' tokenSymbol={'COIN'} />
         </Grid>
       </Grid>
+      <Button onClick={() => mint()}>test</Button>
     </>
   )
 }

@@ -24,7 +24,7 @@ const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   )
 }
 
-const BalanceCard = ({ tokenName }: { tokenName: string }) => {
+const BalanceCard = ({ tokenName, tokenSymbol }: { tokenName: string; tokenSymbol: string }) => {
   const [transactionType, setTransactionType] = useState('order')
   const [weight, setWeight] = useState(0)
 
@@ -32,6 +32,7 @@ const BalanceCard = ({ tokenName }: { tokenName: string }) => {
     <Card sx={{ p: '16px', mb: 0, borderRadius: '15px', maxWidth: 345 }}>
       <Stack alignItems='center' py={4} width='100%'>
         <Typography variant='h5'>{tokenName}</Typography>
+        <Typography variant='h6'>{tokenSymbol}</Typography>
       </Stack>
       <Toggle
         options={['unlist', 'transfer back', 'change price']}
