@@ -43,7 +43,7 @@ const BalanceCard = ({ tokenName }: { tokenName: string }) => {
           <TextField
             onChange={e => {
               e.preventDefault()
-              if (e.target.value === '-1') {
+              if (e.target.value === '-1' || !e.target.value) {
                 e.target.value = '0'
               }
               setWeight(parseInt(e.target.value))
@@ -64,7 +64,7 @@ const BalanceCard = ({ tokenName }: { tokenName: string }) => {
             margin: '1rem'
           }}
           variant='outlined'
-        >{`Change ${tokenName}'s price to ${weight} ETH`}</Button>
+        >{`Change ${tokenName}'s price to ${weight === NaN ? 0 : weight} ETH`}</Button>
       </Stack>
     </Card>
   )
