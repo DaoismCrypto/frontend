@@ -97,14 +97,14 @@ export const changePrice = async (tokenId: number, price: number) => {
   await contract.changePrice(tokenId, price, { gasLimit })
 }
 
-export const list = async (id: number, price: number) => {
+export const list = async (tokenId: number, price: number) => {
   const { contract } = await getContract(true, true)
-  await contract.list(id, price, { gasLimit })
+  await contract.list(tokenId, price, { gasLimit })
 }
 
-export const unlist = async (id: number) => {
+export const unlist = async (tokenId: number) => {
   const { contract } = await getContract(true, true)
-  await contract.unlist(id, { gasLimit })
+  await contract.unlist(tokenId, { gasLimit })
 }
 
 // const fetcher =
