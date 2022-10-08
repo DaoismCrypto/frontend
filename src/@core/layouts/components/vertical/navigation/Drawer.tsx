@@ -63,8 +63,8 @@ const Drawer = (props: Props) => {
   return (
     <SwipeableDrawer
       className='layout-vertical-nav'
-      variant={hidden ? 'temporary' : 'permanent'}
-      {...(hidden ? { ...MobileDrawerProps } : { ...DesktopDrawerProps })}
+      variant={'temporary'}
+      {...(hidden ? { ...MobileDrawerProps } : { ...MobileDrawerProps })}
       PaperProps={{ sx: { width: navWidth } }}
       sx={{
         width: navWidth,

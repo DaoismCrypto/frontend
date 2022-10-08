@@ -56,9 +56,10 @@ const LayoutAppBar = (props: Props) => {
       <Toolbar
         className='navbar-content-container'
         sx={{
-          ...(contentWidth === 'boxed' && {
-            '@media (min-width:1440px)': { maxWidth: `calc(1440px - ${theme.spacing(6)} * 2)` }
-          })
+          ...(contentWidth === 'boxed' &&
+            {
+              // '@media (min-width:1440px)': { maxWidth: `calc(1440px - ${theme.spacing(6)} * 2)` }
+            })
         }}
       >
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}

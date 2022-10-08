@@ -98,7 +98,7 @@ export default function TestPage() {
       <Grid
         container
         // spacing={6}
-        p={4}
+        p={{ xs: 4, sm: 16 }}
         style={{
           backgroundColor: '#ddf1ff'
         }}
@@ -141,7 +141,7 @@ export default function TestPage() {
       <Grid
         container
         // spacing={6}
-        p={4}
+        p={{ xs: 4, sm: 16 }}
         style={{
           backgroundColor: '#fff'
         }}
@@ -200,7 +200,7 @@ export default function TestPage() {
       <Grid
         container
         // spacing={6}
-        p={4}
+        p={{ xs: 4, sm: 16 }}
         style={{
           backgroundColor: '#e9fbff'
         }}
