@@ -29,8 +29,8 @@ const BalanceCard = ({ tokenName }: { tokenName: string }) => {
   const [weight, setWeight] = useState(0)
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <Stack alignItems='center' paddingTop={2} width='100%'>
+    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px', maxWidth: 345 }}>
+      <Stack alignItems='center' py={4} width='100%'>
         <Typography variant='h5'>{tokenName}</Typography>
       </Stack>
       <Toggle
