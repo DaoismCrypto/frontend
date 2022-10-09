@@ -3,9 +3,8 @@ import Token_Market_abi from "./Token_Market_abi.json";
 import Hack_Token_abi from "./Hack_Token_abi.json";
 import { isAddress } from "ethers/lib/utils";
 
-const hackTokenAddress = "0x3d33C785AcC4Ef00EB7eeEf97d452a0290249952";
-const tokenMarketAddress = "0xa56af4256da004D217239a0c87204938b9e95cA7";
-const myAddress = "0xF2842fb04291d002d27F1E78279F65994870a0be";
+const hackTokenAddress = "0x3c0d62795d185C8cD3eddE597593Ac46Dac1Ce86";
+const tokenMarketAddress = "0x68F15d4FdF7566f9F31b2aE305167933aB2BC777";
 const gasLimit = 2100000;
 const ETH_VALUE_AS_STRING = "0.0101";
 // HackToken
@@ -146,7 +145,7 @@ export const getAllListedToken = async (isOnlyUser: boolean = false) => {
   const { contract, signerAddress } = await getContract(false, true);
   const tokens = await contract.getAllListedToken();
   const promises: Promise<any>[] = tokens.map((token: any) => {
-    return getToken(token);
+    return getTokenFromTokenMarket(token);
   });
 
   const pricePromises: Promise<any>[] = tokens.map((token: any) => {
@@ -174,12 +173,31 @@ export const getPrice = async (tokenId: number) => {
   return price;
 };
 
-export const getToken = async (tokenId: number) => {
+export const getTokenFromHackToken = async (tokenId: number) => {
   const { contract } = await getContract(false, false);
   const token = await contract.getToken(tokenId);
   console.log(token);
   return token;
 };
+
+export const getTokenFromTokenMarket = async (tokenId: number) => {
+  const { contract } = await getContract(false, true);
+  const token = await contract.getToken(tokenId);
+  console.log(token);
+  return token;
+};
+
+export const getTokenList = async () => {
+  const { contract, signerAddress } = await getContract(false, false);
+  console.log(signerAddress)
+  const tokenList = await contract.getTokenList(signerAddress);
+  console.log(tokenList);
+  const promises: Promise<any>[] = tokenList.map((token: any) => {
+    return getTokenFromHackToken(token);
+  });
+};
+
+
 
 // const fetcher =
 //   (library: ethers.providers.Web3Provider, abi?: any) =>

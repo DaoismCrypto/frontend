@@ -1,22 +1,9 @@
-<<<<<<< Updated upstream
-import {
-  Button,
-  Card,
-  TextField,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
-import { changePrice, unlist, transferBack } from "../api";
-=======
 import { Button, Card, TextField, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react'
 import { changePrice, unlist, transferBack } from '../api'
 import { mdiEthereum } from '@mdi/js'
 import Icon from '@mdi/react'
->>>>>>> Stashed changes
+
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {
