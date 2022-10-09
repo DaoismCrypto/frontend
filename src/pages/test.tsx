@@ -11,7 +11,8 @@ import {
   getUnit,
   getTokenInfo,
   getAllListedTokens,
-  buyToken
+  buyToken,
+  getToken
 } from 'src/api'
 import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
@@ -88,8 +89,9 @@ export default function TestPage() {
       <Button
         onClick={() =>
           // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
-          // The unit of price is ether
-          buyToken(0,price_to_bid_in_string)
+          // The unit of price is ether buyToken(0,price_to_bid_in_string)
+          //getToken(0)
+          getAllListedTokens()
         }
       >
         test
