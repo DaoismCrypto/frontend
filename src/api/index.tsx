@@ -3,8 +3,8 @@ import Token_Market_abi from "./Token_Market_abi.json";
 import Hack_Token_abi from "./Hack_Token_abi.json";
 import { isAddress } from "ethers/lib/utils";
 
-const hackTokenAddress = "0x3c0d62795d185C8cD3eddE597593Ac46Dac1Ce86";
-const tokenMarketAddress = "0x68F15d4FdF7566f9F31b2aE305167933aB2BC777";
+const hackTokenAddress = "0xcc76CB3B8083c92b3ff8D0E5E3947D75D35E09e7";
+const tokenMarketAddress = "0x0bc61319E8Fc858Ff582e9CA5149E7E6C5420304";
 const gasLimit = 2100000;
 const ETH_VALUE_AS_STRING = "0.0101";
 // HackToken
@@ -190,26 +190,21 @@ export const getTokenFromTokenMarket = async (tokenId: number) => {
 
 export const getTokenList = async () => {
   const { contract, signerAddress } = await getContract(false, false);
-  console.log(signerAddress);
   const tokenList = await contract.getTokenList(signerAddress);
-  console.log(tokenList);
   const promises: Promise<any>[] = tokenList.map((token: any) => {
     return getTokenFromHackToken(token);
   });
+  const response = await Promise.all(promises);
+  const mappedResponse = response.map((res, i) => [...res, tokenList[i]]);
+  return mappedResponse;
 };
 
-// const fetcher =
-//   (library: ethers.providers.Web3Provider, abi?: any) =>
-//   (...args: [any, any, ...any[]]) => {
-//     const [arg1, arg2, ...params] = args
-//     // it's a contract
-//     if (isAddress(arg1)) {
-//       const address = arg1
-//       const method = arg2
-//       const contract = new ethers.Contract(address, abi, library.getSigner())
-//       return contract[method](...params)
-//     }
-//     // it's a eth call
-//     const method = arg1
-//     return library[method](arg2, ...params)
-//   }
+export const postToMarket = async (tokenId: number, price: number) => {
+  const { contract, signerAddress } = await getContract(true, false);
+  const action = await contract.postToMarket(
+    signerAddress,
+    tokenId,
+    parseInt(price)
+  );
+  return;
+};

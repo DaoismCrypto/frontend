@@ -6,11 +6,11 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  Input,
+  InputAdornment,
 } from "@mui/material";
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
-import { changePrice, unlist, transferBack } from "../api";
-import { mdiEthereum } from "@mdi/js";
-import Icon from "@mdi/react";
+import { changePrice, postToMarket } from "../api";
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {
@@ -44,42 +44,29 @@ const OwnerCard = ({
   tokenName,
   serialNumber,
   tokenId,
-  price,
   time,
 }: {
   tokenName: string;
   serialNumber: string;
   tokenId: number;
-  price: { _hex: string };
   time: number;
 }) => {
   const [transactionType, setTransactionType] = useState("");
-  const [weight, setWeight] = useState(parseInt(price._hex, 16));
+  const [weight, setWeight] = useState(0);
 
   const dateInYYYYMMDD = new Date(time * 1000).toLocaleDateString("en-UK");
 
   const selectCorrectOption = (id: number) => {
     switch (transactionType) {
-      case "Unlist":
-        return unlist(id);
-      case "Transfer Back":
-        return transferBack(id);
-      case "change price":
-        return changePrice(id, weight);
       default:
-        return null;
+        return postToMarket(id, weight);
     }
   };
 
   const generateButtonText = () => {
     switch (transactionType) {
-      case "change price":
-        return `Change ${tokenName}'s price to ${
-          weight === NaN ? 0 : weight
-        } ETH`;
-      case "Unlist":
-      case "Transfer Back":
-        return transactionType + " " + tokenName;
+      case "Post to Market":
+        return `sell ${tokenName}  at ${weight === NaN ? 0 : weight} WEI`;
       default:
         return "Select an action";
     }
@@ -89,18 +76,9 @@ const OwnerCard = ({
     <Card sx={{ p: "16px", mb: 0, borderRadius: "15px" }}>
       <Stack alignItems="center" py={4} width="100%">
         <Typography variant="h5">{tokenName}</Typography>
-        <Typography
-          variant="h6"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Icon path={mdiEthereum} title="Ether" size={1} />
-          WEI: {parseInt(price._hex, 16)}
-        </Typography>
+        <Typography variant="caption">{`Serial #: ${serialNumber}`}</Typography>
         <Typography variant="caption">
-          {`Serial #: ${serialNumber}
-          , Minted at ${dateInYYYYMMDD}`}
+          {`Minted at ${dateInYYYYMMDD}`}
         </Typography>
       </Stack>
       <Toggle
@@ -109,13 +87,13 @@ const OwnerCard = ({
         value={transactionType}
       />
       <Stack width="100%">
-        {transactionType === "change price" ? (
-          <TextField
+        {transactionType === "Post to Market" ? (
+          <Input
             onChange={(e) => {
               e.preventDefault();
-              if (e.target.value === "-1" || !e.target.value) {
-                e.target.value = "0";
-              }
+              // if (e.target.value === "-1" || !e.target.value) {
+              //   e.target.value = "0";
+              // }
               setWeight(parseInt(e.target.value));
             }}
             style={{
@@ -123,16 +101,14 @@ const OwnerCard = ({
               marginRight: "1rem",
               marginBottom: "1rem",
             }}
-            type="number"
+            type="decimal"
             value={weight}
+            endAdornment={<InputAdornment position="end">WEI</InputAdornment>}
           />
         ) : null}
 
         <Button
-          disabled={
-            (weight === 0 || weight === parseInt(price._hex, 16)) &&
-            transactionType === "change price"
-          }
+          disabled={weight === 0}
           style={{
             margin: "1rem",
           }}
