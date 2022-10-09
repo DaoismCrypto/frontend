@@ -129,28 +129,32 @@ export const transferBack = async (tokenId: number) => {
   await contract.transferBack(tokenId, { gasLimit })
 }
 
-export const getAllListedToken = async () => {
-  const { contract } = await getContract(false, true)
-  const tokens = await contract.getAllListedToken()
-  const promises: Promise<string>[] = tokens.map((token: any) => {
-    // console.log(token)
-    return getToken(token)
-  })
-  Promise.all(promises).then(values => {
-    console.log(values)
-  })
-}
-
-export const getUserTokens = async () => {
-  const { contract } = await getContract(false, true)
+export const getAllListedToken = async (isOnlyUser: boolean = false) => {
+  const { contract, signerAddress } = await getContract(false, true)
   const tokens = await contract.getAllListedToken()
   const promises: Promise<any>[] = tokens.map((token: any) => {
-    // return contract.getToken(token)
     return getToken(token)
   })
 
+  const pricePromises: Promise<any>[] = tokens.map((token: any) => {
+    return getPrice(token)
+  })
+
+  const prices = await Promise.all(pricePromises)
   const response = await Promise.all(promises)
-  return response.filter(value => value.prevOwner === signerAddress)
+  const mappedResponse = response.map((res, i) => [...res, prices[i]])
+  console.log(mappedResponse)
+  if (isOnlyUser) {
+    return mappedResponse.filter(value => value[6] === signerAddress)
+  } else {
+    return mappedResponse
+  }
+}
+
+export const getPrice = async (tokenId: number) => {
+  const { contract } = await getContract(false, true)
+  const price = await contract.getPrice(tokenId, { gasLimit })
+  return price
 }
 
 export const getToken = async (tokenId: number) => {

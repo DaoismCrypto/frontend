@@ -1,20 +1,7 @@
 import BalanceCard from '../components/BalanceCard'
 import { Grid, TextField, IconButton, InputAdornment, Typography, Modal, Divider, Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-import {
-  getQuota,
-  list,
-  mint,
-  transferFrom,
-  getPrevOwner,
-  getSupply,
-  getUnit,
-  getTokenInfo,
-  getAllListedToken,
-  buyToken,
-  getUserTokens,
-  getUser
-} from 'src/api'
+import { getAllListedToken, buyToken, getUser } from 'src/api'
 import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
 export default function TestPage() {
@@ -37,7 +24,7 @@ export default function TestPage() {
   }
 
   const loadUserTokens = async () => {
-    const userTokens = await getUserTokens()
+    const userTokens = await getAllListedToken(false)
     setTokens(userTokens)
   }
 
@@ -46,7 +33,7 @@ export default function TestPage() {
   }, [])
 
   useEffect(() => {
-    // loadUserTokens()
+    loadUserTokens()
   }, [user])
 
   const modal = (title: string, subtitle: string) => {
@@ -116,12 +103,14 @@ export default function TestPage() {
         </Grid>
       </Grid>
       <Button
-        onClick={() =>
+        onClick={async () => {
           // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
           // The unit of price is ether
           // buyToken(0,price_to_bid_in_string)
+          // const ans = await getUserTokens()
+          // console.log(ans)
           getAllListedToken()
-        }
+        }}
       >
         test
       </Button>
