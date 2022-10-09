@@ -18,6 +18,7 @@ export default function TestPage() {
   useEffect(() => {
     // getMyBalance('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
     // test('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
+    // getAllListedTokens()
   }, [])
 
   const [sort, setSort] = useState<string | null>(null)
@@ -80,7 +81,7 @@ export default function TestPage() {
         </Grid>
         {/* <Grid item xs={2} alignItems='center' display='flex' height='100%'></Grid> */}
         <Grid item xs={12}>
-          <BalanceCard tokenName='Coin Name' tokenSymbol={'COIN'} />
+          <BalanceCard tokenName='Coin Name' tokenSymbol={'COIN'} tokenId={0} />
         </Grid>
       </Grid>
       <Button

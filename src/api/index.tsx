@@ -120,15 +120,32 @@ export const unlist = async (tokenId: number) => {
   await contract.unlist(tokenId, { gasLimit })
 }
 
+export const transferBack = async (tokenId: number) => {
+  const { contract } = await getContract(true, true)
+  await contract.transferBack(tokenId, { gasLimit })
+}
+
 export const getAllListedTokens = async () => {
   const { contract } = await getContract(false, true)
   const tokens = await contract.getAllListedTokens()
   const promises: Promise<string>[] = tokens.map((token: any) => {
     // console.log(token)
-    return contract.getInfo(token)
+    return contract.getToken(token)
   })
   Promise.all(promises).then(values => {
     console.log(values)
+  })
+}
+
+export const getUserTokens = async () => {
+  const { contract } = await getContract(false, true)
+  const tokens = await contract.getAllListedTokens()
+  const promises: Promise<string>[] = tokens.map((token: any) => {
+    return contract.getToken(token)
+  })
+  Promise.all(promises).then(values => {
+    console.log(values)
+    return values.filter(value => value.prevOwner === signerAddress)
   })
 }
 
