@@ -45,6 +45,7 @@ export default function TestPage() {
     setOwnedTokens(ownedTokens);
   };
 
+
   useEffect(() => {
     checkForUser();
   }, []);

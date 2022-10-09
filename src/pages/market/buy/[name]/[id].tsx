@@ -29,6 +29,13 @@ const BalanceCard = () => {
   const [tName, setName] = useState("Loading...");
   const [tId, setId] = useState(0);
 
+  useEffect(() => {
+    const { id, name } = router.query;
+    getPrice(parseInt(id as string)).then((p) => setPrice(p.toNumber()));
+    setName(name as string);
+    setId(parseInt(id as string));
+  }, []);
+
   return (
     <Card sx={{ p: "16px", mb: 0, borderRadius: "15px", maxWidth: 345 }}>
       <Stack alignItems="center" py={4} width="100%">
@@ -133,6 +140,7 @@ export default function TokenPage({ data }: { data: DataType[] }) {
           <BalanceCard />
         </Grid>
       </Grid>
+
       <Divider sx={{ mx: 24, mt: 8 }} />
       <Box mt={12} mx={24}>
         <Typography
