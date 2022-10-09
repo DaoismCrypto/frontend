@@ -152,15 +152,6 @@ export default function TestPage() {
                         time={token[5]}
                       />
                     </Grid>
-                    {/* <Grid item xs={12} md={4} key={index}>
-                      <OwnerCard
-                        tokenName={token[1]}
-                        serialNumber={token[0]}
-                        tokenId={token[8]}
-                        price={token[7]}
-                        time={token[5]}
-                      />
-                    </Grid> */}
                   </>
                 );
               })}

@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
-import { changePrice, unlist, transferBack } from "../api";
+import { changePrice, unlist, transferBack, postToMarket } from "../api";
 import { mdiEthereum } from "@mdi/js";
 import Icon from "@mdi/react";
 
@@ -61,7 +61,7 @@ const OwnerCard = ({
   const selectCorrectOption = (id: number) => {
     switch (transactionType) {
       default:
-        return null;
+        return postToMarket(id, weight);
     }
   };
 
