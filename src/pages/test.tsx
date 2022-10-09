@@ -6,7 +6,7 @@ import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
 export default function TestPage() {
   useEffect(() => {
-    getMyBalance('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
+    // getMyBalance('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
     // test('0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f')
   }, [])
 
