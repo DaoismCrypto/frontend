@@ -80,7 +80,7 @@ export default function TestPage() {
           xs={10}
           mb={6}
           display="flex"
-          justifyContent="center"
+          alignItems="center"
           width="100%"
         >
           <TextField
@@ -110,23 +110,24 @@ export default function TestPage() {
         </Grid>
         {/* <Grid item xs={2} alignItems='center' display='flex' height='100%'></Grid> */}
         <Grid alignItems="center" spacing={4} container width="100%">
-          <Grid item xs={12} md={4}>
-            <BalanceCard
-              tokenName="Coin Name"
-              tokenSymbol={"COIN"}
-              tokenId={0}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <BalanceCard
-              tokenName="Coin Name"
-              tokenSymbol={"COIN"}
-              tokenId={0}
-            />
-          </Grid>
+          {tokens &&
+            tokens
+              .filter((x) => x[1].includes(criteria) || criteria == null)
+              .map((token, index) => {
+                return (
+                  <Grid item xs={12} md={4} key={index}>
+                    <BalanceCard
+                      tokenName={token[1]}
+                      serialNumber={token[0]}
+                      tokenId={token[8]}
+                      price={token[7]}
+                    />
+                  </Grid>
+                );
+              })}
         </Grid>
       </Grid>
-      <Button
+      {/* <Button
         onClick={async () => {
           // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
           // The unit of price is ether
@@ -137,7 +138,7 @@ export default function TestPage() {
         }}
       >
         test
-      </Button>
+      </Button> */}
     </>
   );
 }

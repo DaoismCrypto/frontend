@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import {
   Button,
   Card,
@@ -9,6 +10,13 @@ import {
 } from "@mui/material";
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
 import { changePrice, unlist, transferBack } from "../api";
+=======
+import { Button, Card, TextField, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { Dispatch, MouseEvent, SetStateAction, useState } from 'react'
+import { changePrice, unlist, transferBack } from '../api'
+import { mdiEthereum } from '@mdi/js'
+import Icon from '@mdi/react'
+>>>>>>> Stashed changes
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {
@@ -40,37 +48,52 @@ const Toggle = ({ value, options, updateFn }: ToggleProps) => {
 
 const BalanceCard = ({
   tokenName,
-  tokenSymbol,
+  serialNumber,
   tokenId,
+  price
 }: {
-  tokenName: string;
-  tokenSymbol: string;
-  tokenId: number;
+  tokenName: string
+  serialNumber: string
+  tokenId: number
+  price: { _hex: string }
 }) => {
-  const [transactionType, setTransactionType] = useState("order");
-  const [weight, setWeight] = useState(0);
+  const [transactionType, setTransactionType] = useState('order')
+  const [weight, setWeight] = useState(parseInt(price._hex, 16))
 
   const selectCorrectOption = (id: number) => {
     switch (transactionType) {
-      case "unlist":
-        return unlist(id);
-      case "transfer back":
-        return transferBack(id);
-      case "change price":
-        return changePrice(id, weight);
+      case 'Unlist':
+        return unlist(id)
+      case 'Transfer Back':
+        return transferBack(id)
+      case 'change price':
+        return changePrice(id, weight)
       default:
         return null;
     }
   };
 
+  const generateButtonText = () => {
+    switch (transactionType) {
+      case 'change price':
+        return `Change ${tokenName}'s price to ${weight === NaN ? 0 : weight} ETH`
+      default:
+        return transactionType + ' ' + tokenName
+    }
+  }
+
   return (
-    <Card sx={{ p: "16px", mb: 0, borderRadius: "15px" }}>
-      <Stack alignItems="center" py={4} width="100%">
-        <Typography variant="h5">{tokenName}</Typography>
-        <Typography variant="h6">{tokenSymbol}</Typography>
+    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px' }}>
+      <Stack alignItems='center' py={4} width='100%'>
+        <Typography variant='h5'>{tokenName}</Typography>
+        <Typography variant='h6' display='flex' justifyContent='center' alignItems='center'>
+          <Icon path={mdiEthereum} title='Ether' size={1} />
+          WEI: {parseInt(price._hex, 16)}
+        </Typography>
+        <Typography variant='caption'>Serial #: {serialNumber}</Typography>
       </Stack>
       <Toggle
-        options={["unlist", "transfer back", "change price"]}
+        options={['Unlist', 'Transfer Back', 'change price']}
         updateFn={setTransactionType}
         value={transactionType}
       />
@@ -95,15 +118,15 @@ const BalanceCard = ({
         ) : null}
 
         <Button
-          disabled={weight === 0}
+          disabled={(weight === 0 || weight === parseInt(price._hex, 16)) && transactionType === 'change price'}
           style={{
             margin: "1rem",
           }}
           variant="outlined"
           onClick={() => selectCorrectOption(tokenId)}
-        >{`Change ${tokenName}'s price to ${
-          weight === NaN ? 0 : weight
-        } ETH`}</Button>
+        >
+          {generateButtonText()}
+        </Button>
       </Stack>
     </Card>
   );
