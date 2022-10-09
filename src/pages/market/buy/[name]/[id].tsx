@@ -7,6 +7,15 @@ import {
   TextField,
   Stack,
   Typography,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box,
+  Divider,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { buyToken, getPrice } from "../../../../api/index";
@@ -73,9 +82,57 @@ const BalanceCard = () => {
 };
 
 export default function TokenPage({ data }: { data: DataType[] }) {
+  const router = useRouter();
+  const rows = [
+    {
+      id: "1",
+      name: "Mark",
+      price: 2,
+      date: "2021-01-01",
+    },
+    {
+      id: "2",
+      name: "Wen Jun",
+      price: 1,
+      date: "2021-01-01",
+    },
+    {
+      id: "1",
+      name: "Mark",
+      price: 2,
+      date: "2021-01-01",
+    },
+    {
+      id: "2",
+      name: "Wen Jun",
+      price: 1,
+      date: "2021-01-01",
+    },
+
+    {
+      id: "1",
+      name: "Mark",
+      price: 2,
+      date: "2021-01-01",
+    },
+    {
+      id: "2",
+      name: "Wen Jun",
+      price: 1,
+      date: "2021-01-01",
+    },
+  ];
+
+  const headerText: string[] = ["Token Name", "Token Price (WEI)", "Date"];
+
   return (
     <>
       <Grid container justifyContent="space-evenly" width="100%">
+        <Grid xs={12} item m={8} pl={24}>
+          <Typography variant="h4" fontFamily="DM Sans">
+            Trading {router.query.name}
+          </Typography>
+        </Grid>
         <Grid item m={8} margin={2}>
           <RenderLineChart data={data} />
         </Grid>
@@ -83,6 +140,61 @@ export default function TokenPage({ data }: { data: DataType[] }) {
           <BalanceCard />
         </Grid>
       </Grid>
+
+      <Divider sx={{ mx: 24, mt: 8 }} />
+      <Box mt={12} mx={24}>
+        <Typography
+          variant="h4"
+          mb={8}
+          sx={{
+            marginLeft: "5%",
+            marginRight: "5%",
+            width: "90%",
+          }}
+          fontFamily="DM Sans"
+        >
+          Previous Transactions
+        </Typography>
+        <Card
+          raised
+          sx={{
+            marginLeft: "5%",
+            marginRight: "5%",
+            width: "90%",
+          }}
+        >
+          <TableContainer>
+            <Table
+              aria-label="Table in dashboard"
+              stickyHeader
+              sx={{ minWidth: 800 }}
+            >
+              <TableHead>
+                <TableRow>
+                  {headerText.map((text, index) => (
+                    <TableCell align="center" key={index}>
+                      <Typography fontWeight="bold">{text}</Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((data) => {
+                  return (
+                    <TableRow hover key={data.id}>
+                      <TableCell align="center">{data.name}</TableCell>
+                      <TableCell align="center">
+                        {parseInt(data.price, 16)}
+                      </TableCell>
+                      <TableCell align="center">{data.date}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Card>
+      </Box>
     </>
   );
 }

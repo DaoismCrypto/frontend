@@ -154,6 +154,7 @@ export const getAllListedToken = async (isOnlyUser: boolean = false) => {
 
   const prices = await Promise.all(pricePromises);
   const response = await Promise.all(promises);
+  console.log(response);
   const mappedResponse = response.map((res, i) => [
     ...res,
     prices[i],
@@ -189,15 +190,13 @@ export const getTokenFromTokenMarket = async (tokenId: number) => {
 
 export const getTokenList = async () => {
   const { contract, signerAddress } = await getContract(false, false);
-  console.log(signerAddress)
+  console.log(signerAddress);
   const tokenList = await contract.getTokenList(signerAddress);
   console.log(tokenList);
   const promises: Promise<any>[] = tokenList.map((token: any) => {
     return getTokenFromHackToken(token);
   });
 };
-
-
 
 // const fetcher =
 //   (library: ethers.providers.Web3Provider, abi?: any) =>

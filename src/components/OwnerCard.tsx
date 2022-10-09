@@ -40,7 +40,7 @@ const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   );
 };
 
-const BalanceCard = ({
+const OwnerCard = ({
   tokenName,
   serialNumber,
   tokenId,
@@ -104,7 +104,7 @@ const BalanceCard = ({
         </Typography>
       </Stack>
       <Toggle
-        options={["Unlist", "Transfer Back", "change price"]}
+        options={["Post to Market"]}
         updateFn={setTransactionType}
         value={transactionType}
       />
@@ -152,4 +152,4 @@ type ToggleProps = {
   value: string;
 };
 
-export default BalanceCard;
+export default OwnerCard;
