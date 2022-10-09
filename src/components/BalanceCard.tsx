@@ -51,7 +51,7 @@ const BalanceCard = ({
   }
 
   return (
-    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px', maxWidth: 345 }}>
+    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px' }}>
       <Stack alignItems='center' py={4} width='100%'>
         <Typography variant='h5'>{tokenName}</Typography>
         <Typography variant='h6'>{tokenSymbol}</Typography>

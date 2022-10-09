@@ -33,6 +33,15 @@ type getContractResponseType = {
   signerAddress: string
 }
 
+export const getUser = async () => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum!)
+  await provider.send('eth_requestAccounts', [])
+  const signer = await provider.getSigner()
+  const signerAddress = await signer.getAddress()
+  sessionStorage.setItem('user', signerAddress)
+  return signerAddress
+}
+
 const getContract = async (isUsingSigner: boolean, isUsingTokenMarket: boolean): Promise<getContractResponseType> => {
   const provider = new ethers.providers.Web3Provider(window.ethereum!)
   await provider.send('eth_requestAccounts', [])
@@ -134,15 +143,14 @@ export const getAllListedToken = async () => {
 
 export const getUserTokens = async () => {
   const { contract } = await getContract(false, true)
-  const tokens = await contract.getAllListedTokens()
+  const tokens = await contract.getAllListedToken()
   const promises: Promise<any>[] = tokens.map((token: any) => {
     // return contract.getToken(token)
     return getToken(token)
   })
-  Promise.all(promises).then(values => {
-    console.log(values)
-    return values.filter(value => value.prevOwner === signerAddress)
-  })
+
+  const response = await Promise.all(promises)
+  return response.filter(value => value.prevOwner === signerAddress)
 }
 
 export const getToken = async (tokenId: number) => {
