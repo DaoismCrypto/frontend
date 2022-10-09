@@ -9,25 +9,24 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { getPrice } from "../../../../api/index";
 import { useRouter } from "next/router";
-import { getTokenInfo } from "src/api";
 
-const BalanceCard = ({
-  tokenName,
-  initialPrice,
-}: {
-  tokenName: string;
-  initialPrice: number;
-}) => {
+const BalanceCard = ({ tokenName }: { tokenName: string }) => {
   const router = useRouter();
   const [weight, setWeight] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [tokenPrice, setPrice] = useState(0);
+
+  useEffect(() => {
+    const { id } = router.query;
+    getPrice(parseInt(id as string)).then((p) => setPrice(p));
+  }, []);
 
   return (
     <Card sx={{ p: "16px", mb: 0, borderRadius: "15px", maxWidth: 345 }}>
       <Stack alignItems="center" py={4} width="100%">
         <Typography variant="h5">
-          {tokenName} {price.toPrecision(5)} ETH
+          {tokenName} {tokenPrice} ETH
         </Typography>
       </Stack>
       <Stack width="100%">
@@ -54,7 +53,7 @@ const BalanceCard = ({
           }}
           variant="outlined"
         >
-          Buy {weight} token for {price} each
+          Buy {weight} token for {tokenPrice} each
         </Button>
       </Stack>
     </Card>
@@ -66,7 +65,7 @@ export default function TokenPage({ data }: { data: DataType[] }) {
     <>
       <Grid container justifyContent="space-evenly" width="100%">
         <Grid item m={6}>
-          <BalanceCard tokenName="AAPL" initialPrice={data[0].Close} />
+          <BalanceCard tokenName="AAPL" />
         </Grid>
         <Grid item m={6}>
           <RenderLineChart data={data} />
@@ -77,7 +76,7 @@ export default function TokenPage({ data }: { data: DataType[] }) {
 }
 
 // Used to simulate the graph of a buying page
-export function getServerSideProps() {
+export async function getServerSideProps() {
   return {
     props: {
       data: jsonString,

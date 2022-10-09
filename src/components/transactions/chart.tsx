@@ -4,7 +4,6 @@ import type { DataType } from "../../pages/transaction/buy/[name]/[id]";
 const RenderLineChart = ({ data }: { data: DataType[] }) => {
   return (
     <LineChart
-      width={600}
       height={300}
       data={data}
       margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
