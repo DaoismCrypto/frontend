@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import {
   Button,
@@ -11,6 +10,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import * as axios from "axios";
+import RenderLineChart from "../../components/transactions/chart";
 
 interface RowType {
   id: string;
@@ -83,18 +84,54 @@ const DataTable = () => {
   );
 };
 
-const BuySide: NextPage = () => {
+export default function BuySide({ data }: { data: DataType[] }) {
   return (
-    <Card
-      raised
-      sx={{
-        margin: "5%",
-        width: "90%",
-      }}
-    >
-      <DataTable />
-    </Card>
-  );
-};
+    <RenderLineChart data={data} />
 
-export default BuySide;
+    // <Card
+    //   raised
+    //   sx={{
+    //     margin: "5%",
+    //     width: "90%",
+    //   }}
+    // >
+    //   <DataTable />
+    // </Card>
+  );
+}
+
+export async function getServerSideProps() {
+  const encodedParams = new URLSearchParams();
+  encodedParams.append("symbol", "AAPL");
+  encodedParams.append("period", "1y");
+
+  const options = {
+    method: "POST",
+    url: "https://yahoo-finance97.p.rapidapi.com/price",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      "X-RapidAPI-Key": "fe3eddd72cmsh92456b091d5a012p1a1486jsnbb8c55751760",
+      "X-RapidAPI-Host": "yahoo-finance97.p.rapidapi.com",
+    },
+    data: encodedParams,
+  };
+
+  const response = await axios.default.request(options);
+
+  return {
+    props: {
+      data: response.data.data,
+    },
+  };
+}
+
+export type DataType = {
+  Close: number;
+  Date: number | string;
+  Dividends: number;
+  High: number;
+  Low: number;
+  Open: number;
+  "Stock Splits": number;
+  Volume: number;
+};

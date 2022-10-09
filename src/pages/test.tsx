@@ -1,4 +1,4 @@
-import BalanceCard from "../components/BalanceCard";
+import BalanceCard from "../components/transactions/BalanceCard";
 import {
   Grid,
   TextField,
