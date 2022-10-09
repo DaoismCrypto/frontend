@@ -200,7 +200,11 @@ export const getTokenList = async () => {
 };
 
 export const postToMarket = async (tokenId: number, price: number) => {
-  const { contract, signerAddress } = await getContract(false, false);
-  const action = await contract.postToMarket(signerAddress, tokenId, price);
+  const { contract, signerAddress } = await getContract(true, false);
+  const action = await contract.postToMarket(
+    signerAddress,
+    tokenId,
+    parseInt(price)
+  );
   return;
 };
