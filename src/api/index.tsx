@@ -190,12 +190,13 @@ export const getTokenFromTokenMarket = async (tokenId: number) => {
 
 export const getTokenList = async () => {
   const { contract, signerAddress } = await getContract(false, false);
-  console.log(signerAddress);
   const tokenList = await contract.getTokenList(signerAddress);
-  console.log(tokenList);
   const promises: Promise<any>[] = tokenList.map((token: any) => {
     return getTokenFromHackToken(token);
   });
+  const response = await Promise.all(promises);
+  const mappedResponse = response.map((res, i) => [...res, tokenList[i]]);
+  return mappedResponse;
 };
 
 // const fetcher =

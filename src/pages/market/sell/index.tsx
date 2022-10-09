@@ -45,7 +45,6 @@ export default function TestPage() {
     setOwnedTokens(ownedTokens);
   };
 
-
   useEffect(() => {
     checkForUser();
   }, []);
@@ -137,8 +136,8 @@ export default function TestPage() {
               Listed Tokens
             </Typography>
           </Grid>
-          {tokens &&
-            tokens
+          {ownedTokens &&
+            ownedTokens
               .filter((x) => x[1].includes(criteria) || criteria == null)
               .sort((x) => x[sort == "date" ? 5 : 1])
               .map((token, index) => {
@@ -153,7 +152,7 @@ export default function TestPage() {
                         time={token[5]}
                       />
                     </Grid>
-                    <Grid item xs={12} md={4} key={index}>
+                    {/* <Grid item xs={12} md={4} key={index}>
                       <OwnerCard
                         tokenName={token[1]}
                         serialNumber={token[0]}
@@ -161,7 +160,7 @@ export default function TestPage() {
                         price={token[7]}
                         time={token[5]}
                       />
-                    </Grid>
+                    </Grid> */}
                   </>
                 );
               })}
@@ -173,28 +172,18 @@ export default function TestPage() {
               Owned Tokens
             </Typography>
           </Grid>
-          {tokens &&
-            tokens
-              .filter((x) => x[1].includes(criteria) || criteria == null)
+          {ownedTokens &&
+            ownedTokens
+              // .filter((x) => x[1].includes(criteria) || criteria == null)
               .sort((x) => x[sort == "date" ? 5 : 1])
               .map((token, index) => {
                 return (
                   <>
                     <Grid item xs={12} md={4} key={index}>
-                      <BalanceCard
-                        tokenName={token[1]}
-                        serialNumber={token[0]}
-                        tokenId={token[8]}
-                        price={token[7]}
-                        time={token[5]}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={4} key={index}>
                       <OwnerCard
                         tokenName={token[1]}
                         serialNumber={token[0]}
                         tokenId={token[8]}
-                        price={token[7]}
                         time={token[5]}
                       />
                     </Grid>
@@ -203,10 +192,9 @@ export default function TestPage() {
               })}
         </Grid>
       </Grid>
-      {
+      {/* {
         <Button
           onClick={async () => {
-            // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
             // The unit of price is ether
             // buyToken(0,price_to_bid_in_string)
             // const ans = await getUserTokens()
@@ -217,7 +205,7 @@ export default function TestPage() {
         >
           test
         </Button>
-      }
+      } */}
     </>
   );
 }
