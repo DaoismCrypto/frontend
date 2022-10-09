@@ -1,13 +1,13 @@
-import { ethers } from 'ethers'
-import Token_Market_abi from './Token_Market_abi.json'
-import Hack_Token_abi from './Hack_Token_abi.json'
-import { isAddress } from 'ethers/lib/utils'
+import { ethers } from "ethers";
+import Token_Market_abi from "./Token_Market_abi.json";
+import Hack_Token_abi from "./Hack_Token_abi.json";
+import { isAddress } from "ethers/lib/utils";
 
-const hackTokenAddress = '0x3d33C785AcC4Ef00EB7eeEf97d452a0290249952'
-const tokenMarketAddress = '0xa56af4256da004D217239a0c87204938b9e95cA7'
-const myAddress = '0xF2842fb04291d002d27F1E78279F65994870a0be'
-const gasLimit = 2100000
-const ETH_VALUE_AS_STRING = '0.0101'
+const hackTokenAddress = "0x3d33C785AcC4Ef00EB7eeEf97d452a0290249952";
+const tokenMarketAddress = "0xa56af4256da004D217239a0c87204938b9e95cA7";
+const myAddress = "0xF2842fb04291d002d27F1E78279F65994870a0be";
+const gasLimit = 2100000;
+const ETH_VALUE_AS_STRING = "0.0101";
 // HackToken
 
 // - mint(): takes gas
@@ -29,33 +29,36 @@ const ETH_VALUE_AS_STRING = '0.0101'
 // - getInfo()
 
 type getContractResponseType = {
-  contract: ethers.Contract
-  signerAddress: string
-}
+  contract: ethers.Contract;
+  signerAddress: string;
+};
 
 export const getUser = async () => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum!)
-  await provider.send('eth_requestAccounts', [])
-  const signer = await provider.getSigner()
-  const signerAddress = await signer.getAddress()
-  sessionStorage.setItem('user', signerAddress)
-  return signerAddress
-}
+  const provider = new ethers.providers.Web3Provider(window.ethereum!);
+  await provider.send("eth_requestAccounts", []);
+  const signer = await provider.getSigner();
+  const signerAddress = await signer.getAddress();
+  sessionStorage.setItem("user", signerAddress);
+  return signerAddress;
+};
 
-const getContract = async (isUsingSigner: boolean, isUsingTokenMarket: boolean): Promise<getContractResponseType> => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum!)
-  await provider.send('eth_requestAccounts', [])
-  const signer = await provider.getSigner()
-  const signerAddress = await signer.getAddress()
+const getContract = async (
+  isUsingSigner: boolean,
+  isUsingTokenMarket: boolean
+): Promise<getContractResponseType> => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum!);
+  await provider.send("eth_requestAccounts", []);
+  const signer = await provider.getSigner();
+  const signerAddress = await signer.getAddress();
   // return { provider, signer, signerAddress }
 
   const contract = new ethers.Contract(
     isUsingTokenMarket ? tokenMarketAddress : hackTokenAddress,
     isUsingTokenMarket ? Token_Market_abi : Hack_Token_abi,
     isUsingSigner ? signer : provider
-  )
-  return { contract, signerAddress }
-}
+  );
+  return { contract, signerAddress };
+};
 
 // admin/owner HackToken contract function
 export const mint = async (
@@ -66,103 +69,117 @@ export const mint = async (
   unit: string,
   quota: number
 ) => {
-  const { contract, signerAddress } = await getContract(true, false)
-  await contract.mint(addressTo, serialNumber, name, information, unit, quota, { gasLimit })
-}
+  const { contract, signerAddress } = await getContract(true, false);
+  await contract.mint(addressTo, serialNumber, name, information, unit, quota, {
+    gasLimit,
+  });
+};
 
-export const transferFrom = async (addressFrom: string, addressTo: string, tokenId: number) => {
-  const { contract } = await getContract(true, false)
-  await contract.transferFrom(addressFrom, addressTo, tokenId, { gasLimit })
-}
+export const transferFrom = async (
+  addressFrom: string,
+  addressTo: string,
+  tokenId: number
+) => {
+  const { contract } = await getContract(true, false);
+  await contract.transferFrom(addressFrom, addressTo, tokenId, { gasLimit });
+};
 
 // public HackToken contract function
 export const getTokenInfo = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const info = await contract.getInfo(tokenId)
-  console.log(info)
-  return info
-}
+  const { contract } = await getContract(false, false);
+  const info = await contract.getInfo(tokenId);
+  console.log(info);
+
+  return info;
+};
 
 export const getPrevOwner = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const ownerId = await contract.getPrevOwner(tokenId)
-  console.log(ownerId)
-}
+  const { contract } = await getContract(false, false);
+  const ownerId = await contract.getPrevOwner(tokenId);
+  console.log(ownerId);
+};
 
 export const getSupply = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const supply = await contract.getSupply(tokenId)
-  console.log(supply)
-}
+  const { contract } = await getContract(false, false);
+  const supply = await contract.getSupply(tokenId);
+  console.log(supply);
+};
 
 export const getQuota = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const quota = await contract.getQuota(tokenId)
-  console.log(quota)
-}
+  const { contract } = await getContract(false, false);
+  const quota = await contract.getQuota(tokenId);
+  console.log(quota);
+};
 
 export const getUnit = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const unit = await contract.getUnit(tokenId)
-  console.log(unit)
-}
+  const { contract } = await getContract(false, false);
+  const unit = await contract.getUnit(tokenId);
+  console.log(unit);
+};
 
 // tokenMarket API
 
 export const buyToken = async (tokenId: number, price: string) => {
-  const { contract } = await getContract(true, true)
-  await contract.buyToken(tokenId, { gasLimit: gasLimit, value: ethers.utils.parseEther(price) })
-}
+  const { contract } = await getContract(true, true);
+  await contract.buyToken(tokenId, {
+    gasLimit: gasLimit,
+    value: ethers.utils.parseEther(price),
+  });
+};
 
 export const list = async (tokenId: number, price: number) => {
-  const { contract } = await getContract(true, true)
-  await contract.list(tokenId, price, { gasLimit })
-}
+  const { contract } = await getContract(true, true);
+  await contract.list(tokenId, price, { gasLimit });
+};
 
 export const unlist = async (tokenId: number) => {
-  const { contract } = await getContract(true, true)
-  await contract.unlist(tokenId, { gasLimit })
-}
+  const { contract } = await getContract(true, true);
+  await contract.unlist(tokenId, { gasLimit });
+};
 
 export const transferBack = async (tokenId: number) => {
-  const { contract } = await getContract(true, true)
-  await contract.transferBack(tokenId, { gasLimit })
-}
+  const { contract } = await getContract(true, true);
+  await contract.transferBack(tokenId, { gasLimit });
+};
 
 export const getAllListedToken = async (isOnlyUser: boolean = false) => {
-  const { contract, signerAddress } = await getContract(false, true)
-  const tokens = await contract.getAllListedToken()
+  const { contract, signerAddress } = await getContract(false, true);
+  const tokens = await contract.getAllListedToken();
   const promises: Promise<any>[] = tokens.map((token: any) => {
-    return getToken(token)
-  })
+    return getToken(token);
+  });
 
   const pricePromises: Promise<any>[] = tokens.map((token: any) => {
-    return getPrice(token)
-  })
+    return getPrice(token);
+  });
 
-  const prices = await Promise.all(pricePromises)
-  const response = await Promise.all(promises)
-  const mappedResponse = response.map((res, i) => [...res, prices[i]])
-  console.log(mappedResponse)
+  const prices = await Promise.all(pricePromises);
+  const response = await Promise.all(promises);
+  const mappedResponse = response.map((res, i) => [
+    ...res,
+    prices[i],
+    tokens[i],
+  ]);
+  console.log(mappedResponse);
   if (isOnlyUser) {
-    return mappedResponse.filter(value => value[6] === signerAddress)
+    return mappedResponse.filter((value) => value[6] === signerAddress);
   } else {
-    return mappedResponse
+    return mappedResponse;
   }
-}
+};
 
 export const getPrice = async (tokenId: number) => {
-  const { contract } = await getContract(false, true)
-  const price = await contract.getPrice(tokenId, { gasLimit })
-  return price
-}
+  const { contract } = await getContract(false, true);
+  const price = await contract.getPrice(tokenId, { gasLimit });
+  return price;
+};
 
 export const getToken = async (tokenId: number) => {
-  const { contract } = await getContract(false, false)
-  const token = await contract.getToken(tokenId)
-  console.log(token)
-  return token
-}
+  const { contract } = await getContract(false, false);
+  const token = await contract.getToken(tokenId);
+  console.log(token);
+  return token;
+};
 
 // const fetcher =
 //   (library: ethers.providers.Web3Provider, abi?: any) =>

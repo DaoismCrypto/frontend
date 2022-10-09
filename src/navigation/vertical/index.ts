@@ -1,90 +1,90 @@
 // ** Icon imports
-import Login from 'mdi-material-ui/Login'
-import Table from 'mdi-material-ui/Table'
-import CubeOutline from 'mdi-material-ui/CubeOutline'
-import HomeOutline from 'mdi-material-ui/HomeOutline'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
-import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
-import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
-import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import Login from "mdi-material-ui/Login";
+import Table from "mdi-material-ui/Table";
+import CubeOutline from "mdi-material-ui/CubeOutline";
+import HomeOutline from "mdi-material-ui/HomeOutline";
+import FormatLetterCase from "mdi-material-ui/FormatLetterCase";
+import AccountCogOutline from "mdi-material-ui/AccountCogOutline";
+import CreditCardOutline from "mdi-material-ui/CreditCardOutline";
+import AccountPlusOutline from "mdi-material-ui/AccountPlusOutline";
+import AlertCircleOutline from "mdi-material-ui/AlertCircleOutline";
+import GoogleCirclesExtended from "mdi-material-ui/GoogleCirclesExtended";
 
 // ** Type import
-import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import { VerticalNavItemsType } from "src/@core/layouts/types";
 
 const navigation = (): VerticalNavItemsType => {
   return [
     {
-      title: 'Dashboard',
+      title: "Dashboard",
       icon: HomeOutline,
-      path: '/'
+      path: "/",
     },
     {
-      title: 'Account Settings',
+      title: "Account Settings",
       icon: AccountCogOutline,
-      path: '/account-settings'
+      path: "/account-settings",
     },
     {
-      sectionTitle: 'Pages'
+      sectionTitle: "Pages",
     },
     {
-      title: 'Login',
+      title: "Login",
       icon: Login,
-      path: '/pages/login',
-      openInNewTab: true
+      path: "/pages/login",
+      openInNewTab: true,
     },
     {
-      title: 'Register',
+      title: "Register",
       icon: AccountPlusOutline,
-      path: '/pages/register',
-      openInNewTab: true
+      path: "/pages/register",
+      openInNewTab: true,
     },
     {
-      title: 'Error',
+      title: "Error",
       icon: AlertCircleOutline,
-      path: '/pages/error',
-      openInNewTab: true
+      path: "/pages/error",
+      openInNewTab: true,
     },
     {
-      sectionTitle: 'User Interface'
+      sectionTitle: "User Interface",
     },
     {
-      title: 'Typography',
+      title: "Typography",
       icon: FormatLetterCase,
-      path: '/typography'
+      path: "/typography",
     },
     {
-      title: 'Icons',
-      path: '/icons',
-      icon: GoogleCirclesExtended
+      title: "Icons",
+      path: "/icons",
+      icon: GoogleCirclesExtended,
     },
     {
-      title: 'Cards',
+      title: "Cards",
       icon: CreditCardOutline,
-      path: '/cards'
+      path: "/cards",
     },
     {
-      title: 'Tables',
+      title: "Tables",
       icon: Table,
-      path: '/tables'
+      path: "/tables",
     },
     {
       icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
+      title: "Form Layouts",
+      path: "/form-layouts",
     },
     {
       icon: CubeOutline,
-      title: 'Landing',
-      path: '/landing'
+      title: "Landing",
+      path: "/landing",
     },
     {
       icon: CubeOutline,
-      title: 'Seller',
-      path: '/seller'
-    }
-  ]
-}
+      title: "Seller",
+      path: "/seller",
+    },
+  ];
+};
 
-export default navigation
+export default navigation;
