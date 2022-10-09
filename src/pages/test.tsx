@@ -10,7 +10,8 @@ import {
   getSupply,
   getUnit,
   getTokenInfo,
-  getAllListedTokens
+  getAllListedTokens,
+  buyToken
 } from 'src/api'
 import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
@@ -24,6 +25,7 @@ export default function TestPage() {
   const [sort, setSort] = useState<string | null>(null)
   const [showSort, setShowSort] = useState(false)
   const [open, setOpen] = useState(false)
+  const price_to_bid_in_string = "0.0101"
 
   const modal = (title: string, subtitle: string) => {
     return (
@@ -87,7 +89,8 @@ export default function TestPage() {
       <Button
         onClick={() =>
           // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
-          getAllListedTokens()
+          // The unit of price is ether
+          buyToken(0,price_to_bid_in_string)
         }
       >
         test

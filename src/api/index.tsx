@@ -3,11 +3,11 @@ import Token_Market_abi from './Token_Market_abi.json'
 import Hack_Token_abi from './Hack_Token_abi.json'
 import { isAddress } from 'ethers/lib/utils'
 
-const contractAddress = '0x617871c357C4335DF041737eA21E246aDe5317E7'
-const tokenMarketAddress = '0x039d83bbc8a0674950460658afF1CDA1c6103b24'
+const hackTokenAddress = '0x3d33C785AcC4Ef00EB7eeEf97d452a0290249952'
+const tokenMarketAddress = '0xa56af4256da004D217239a0c87204938b9e95cA7'
 const myAddress = '0xF2842fb04291d002d27F1E78279F65994870a0be'
 const gasLimit = 2100000
-
+const ETH_VALUE_AS_STRING = "0.0101"
 // HackToken
 
 // - mint(): takes gas
@@ -41,7 +41,7 @@ const getContract = async (isUsingSigner: boolean, isUsingTokenMarket: boolean):
   // return { provider, signer, signerAddress }
 
   const contract = new ethers.Contract(
-    isUsingTokenMarket ? tokenMarketAddress : contractAddress,
+    isUsingTokenMarket ? tokenMarketAddress : hackTokenAddress,
     isUsingTokenMarket ? Token_Market_abi : Hack_Token_abi,
     isUsingSigner ? signer : provider
   )
@@ -100,15 +100,11 @@ export const getUnit = async (tokenId: number) => {
 
 // tokenMarket API
 
-export const buyToken = async (tokenId: number) => {
-  const { contract } = await getContract(false, true)
-  await contract.buyToken(tokenId, { gasLimit })
+export const buyToken = async (tokenId: number, price: string) => {
+  const { contract } = await getContract(true, true)
+  await contract.buyToken(tokenId, { gasLimit:gasLimit, value: ethers.utils.parseEther(price) })
 }
 
-export const changePrice = async (tokenId: number, price: number) => {
-  const { contract } = await getContract(false, true)
-  await contract.changePrice(tokenId, price, { gasLimit })
-}
 
 export const list = async (tokenId: number, price: number) => {
   const { contract } = await getContract(true, true)
