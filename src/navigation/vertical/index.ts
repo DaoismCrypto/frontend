@@ -28,12 +28,12 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: "Buy Tokens",
       icon: CreditCardOutline,
-      path: "/transaction/buy",
+      path: "/market/buy",
     },
     {
       title: "Modify Tokens",
       icon: AlertCircleOutline,
-      path: "/seller",
+      path: "/market/sell",
     },
   ];
 };
