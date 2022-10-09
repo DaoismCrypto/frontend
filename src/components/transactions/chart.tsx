@@ -5,6 +5,7 @@ const RenderLineChart = ({ data }: { data: DataType[] }) => {
   return (
     <LineChart
       height={300}
+      width={600}
       data={data}
       margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
     >
