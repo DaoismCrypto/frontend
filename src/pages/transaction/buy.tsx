@@ -1,50 +1,100 @@
-import type { NextPage } from 'next'
-import { Paper, Table, TableBody, TableCell, TableHead, TableContainer, TableRow } from '@mui/material'
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import {
+  Button,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableContainer,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
-const MOCK_DATA = [
+interface RowType {
+  id: string;
+  name: string;
+  price: number;
+  quota: number;
+}
+
+const rows: RowType[] = [
   {
-    id: '1',
+    id: "1",
     quota: 5,
-    name: 'Mark',
-    price: '2'
+    name: "Mark",
+    price: 2,
   },
   {
-    id: '2',
+    id: "2",
     quota: 3,
-    name: 'Wen Jun',
-    price: '1'
-  }
-]
+    name: "Wen Jun",
+    price: 1,
+  },
+];
 
 const DataTable = () => {
+  const router = useRouter();
+
+  const handleClick = (params: string) => {
+    router.push(`/transaction/buy/${params}`);
+  };
+
+  const headerText: string[] = [
+    "Token Name",
+    "Token Price (ETH)",
+    "Quota (Tonne)",
+    "Actions",
+  ];
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }}>
+    <TableContainer>
+      <Table
+        aria-label="Table in dashboard"
+        stickyHeader
+        sx={{ minWidth: 800 }}
+      >
         <TableHead>
           <TableRow>
-            <TableCell align='center'>Token Name</TableCell>
-            <TableCell align='center'>Token Price</TableCell>
-            <TableCell align='center'>Quota (Tonne)</TableCell>
+            {headerText.map((text, index) => (
+              <TableCell align="center" key={index}>
+                <Typography fontWeight="bold">{text}</Typography>
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {MOCK_DATA.map(data => {
+          {rows.map((data) => {
             return (
-              <TableRow key={data.id}>
-                <TableCell align='center'>{data.name}</TableCell>
-                <TableCell align='center'>{data.price}</TableCell>
-                <TableCell align='center'>{data.quota}</TableCell>
+              <TableRow hover key={data.id}>
+                <TableCell align="center">{data.name}</TableCell>
+                <TableCell align="center">{data.price}</TableCell>
+                <TableCell align="center">{data.quota}</TableCell>
+                <TableCell align="center">
+                  <Button onClick={() => handleClick(data.id)}>Details</Button>
+                </TableCell>
               </TableRow>
-            )
+            );
           })}
         </TableBody>
       </Table>
     </TableContainer>
-  )
-}
+  );
+};
 
 const BuySide: NextPage = () => {
-  return <DataTable />
-}
+  return (
+    <Card
+      raised
+      sx={{
+        margin: "5%",
+        width: "90%",
+      }}
+    >
+      <DataTable />
+    </Card>
+  );
+};
 
-export default BuySide
+export default BuySide;

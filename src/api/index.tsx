@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import erc721abi from './ERC721abi.json'
 
