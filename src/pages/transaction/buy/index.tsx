@@ -9,36 +9,45 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-
-interface RowType {
-  id: string;
-  name: string;
-  price: number;
-  quota: number;
-}
-
-const rows: RowType[] = [
-  {
-    id: "1",
-    quota: 5,
-    name: "Mark",
-    price: 2,
-  },
-  {
-    id: "2",
-    quota: 3,
-    name: "Wen Jun",
-    price: 1,
-  },
-];
+import { useState, useEffect } from "react";
+import { getAllListedToken, getUser } from "src/api";
 
 const DataTable = () => {
   const headerText: string[] = [
     "Token Name",
-    "Token Price (ETH)",
-    "Quota (Tonne)",
+    "Token Price (WEI)",
+    "Quota",
+    "Unit",
     "Actions",
   ];
+  const [user, setUser] = useState<string>();
+  {
+    /* (serialNumber, name, information, unit, quota, time, prevOwner, price, tokenId) */
+  }
+  const [tokens, setTokens] = useState<any[]>([]);
+
+  const checkForUser = async () => {
+    const temp = sessionStorage.getItem("user");
+    if (temp == null) {
+      const address = await getUser();
+      setUser(address);
+    } else {
+      setUser(temp);
+    }
+  };
+
+  const loadTokens = async () => {
+    const userTokens = await getAllListedToken(false);
+    setTokens(userTokens);
+  };
+
+  useEffect(() => {
+    checkForUser();
+  }, []);
+
+  useEffect(() => {
+    loadTokens();
+  }, [user]);
 
   return (
     <>
@@ -58,17 +67,22 @@ const DataTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((data) => {
+            {tokens.map((data) => {
               return (
-                <TableRow hover key={data.id}>
-                  <TableCell align="center">{data.name}</TableCell>
-                  <TableCell align="center">{data.price}</TableCell>
-                  <TableCell align="center">{data.quota}</TableCell>
+                <TableRow hover key={data[8]}>
+                  <TableCell align="center">{data[1]}</TableCell>
+                  <TableCell align="center">
+                    {parseInt(data[7]._hex, 16)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {parseInt(data[4]._hex, 16)}
+                  </TableCell>
+                  <TableCell align="center">{data[3]}</TableCell>
                   <TableCell align="center">
                     <Link
                       href={{
-                        pathname: "/transaction/buy/[name]/[id]",
-                        query: { id: parseInt(data.id) - 1, name: data.name },
+                        pathname: `/transaction/buy/${data[1]}/${data[8]}`,
+                        query: { id: data[8], name: data[1] },
                       }}
                     >
                       Details
@@ -86,14 +100,26 @@ const DataTable = () => {
 
 export default function BuySide() {
   return (
-    <Card
-      raised
-      sx={{
-        margin: "5%",
-        width: "90%",
-      }}
-    >
-      <DataTable />
-    </Card>
+    <>
+      <Typography
+        variant="h4"
+        component="h2"
+        className="table__title"
+        my={6}
+        style={{ marginLeft: "5%" }}
+      >
+        All Currently Listed Tokens
+      </Typography>
+      <Card
+        raised
+        sx={{
+          marginLeft: "5%",
+          marginRight: "5%",
+          width: "90%",
+        }}
+      >
+        <DataTable />
+      </Card>
+    </>
   );
 }
