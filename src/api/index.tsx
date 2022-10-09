@@ -118,14 +118,22 @@ export const unlist = async (tokenId: number) => {
 
 export const getAllListedTokens = async () => {
   const { contract } = await getContract(false, true)
-  const tokens = await contract.getAllListedTokens()
+  const tokens = await contract.getAllListedToken()
   const promises: Promise<string>[] = tokens.map((token: any) => {
     // console.log(token)
-    return contract.getInfo(token)
+    return getToken(token)
   })
   Promise.all(promises).then(values => {
     console.log(values)
   })
+}
+
+export const getToken = async (tokenId: number) => {
+  const { contract } = await getContract(false, false)
+  const token = await contract.getToken(tokenId)
+  console.log(token)
+  return token
+
 }
 
 // const fetcher =
