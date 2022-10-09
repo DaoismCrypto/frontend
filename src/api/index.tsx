@@ -49,9 +49,16 @@ const getContract = async (isUsingSigner: boolean, isUsingTokenMarket: boolean):
 }
 
 // admin/owner HackToken contract function
-export const mint = async (serialNumber: string, name: string, information: string, unit: string, quota: number) => {
+export const mint = async (
+  addressTo: string,
+  serialNumber: string,
+  name: string,
+  information: string,
+  unit: string,
+  quota: number
+) => {
   const { contract, signerAddress } = await getContract(true, false)
-  await contract.mint(signerAddress, serialNumber, name, information, unit, quota, { gasLimit })
+  await contract.mint(addressTo, serialNumber, name, information, unit, quota, { gasLimit })
 }
 
 export const transferFrom = async (addressFrom: string, addressTo: string, tokenId: number) => {
