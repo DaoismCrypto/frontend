@@ -10,9 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
-import { changePrice, unlist, transferBack, postToMarket } from "../api";
-import { mdiEthereum } from "@mdi/js";
-import Icon from "@mdi/react";
+import { changePrice, postToMarket } from "../api";
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {

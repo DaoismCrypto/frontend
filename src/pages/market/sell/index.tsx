@@ -136,8 +136,8 @@ export default function TestPage() {
               Listed Tokens
             </Typography>
           </Grid>
-          {ownedTokens &&
-            ownedTokens
+          {tokens &&
+            tokens
               .filter((x) => x[1].includes(criteria) || criteria == null)
               .sort((x) => x[sort == "date" ? 5 : 1])
               .map((token, index) => {
