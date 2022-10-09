@@ -5,13 +5,13 @@ const RenderLineChart = ({ data }: { data: DataType[] }) => {
   return (
     <LineChart
       height={300}
-      width={600}
+      width={800}
       data={data}
       margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
     >
       <Line type="monotone" dataKey="Close" stroke="#8884d8" />
       <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-      <XAxis dataKey="Date" />
+      <XAxis hide />
       <YAxis />
     </LineChart>
   );
