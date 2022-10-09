@@ -1,4 +1,4 @@
-import jsonString from "./dummy.json";
+import jsonString from "../dummy.json";
 import RenderLineChart from "src/components/transactions/Chart";
 import {
   Button,
@@ -8,7 +8,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { getTokenInfo } from "src/api";
 
 const BalanceCard = ({
   tokenName,
@@ -17,8 +19,9 @@ const BalanceCard = ({
   tokenName: string;
   initialPrice: number;
 }) => {
+  const router = useRouter();
   const [weight, setWeight] = useState(0);
-  const [price, setPrice] = useState(initialPrice);
+  const [price, setPrice] = useState(0);
 
   return (
     <Card sx={{ p: "16px", mb: 0, borderRadius: "15px", maxWidth: 345 }}>

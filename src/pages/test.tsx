@@ -6,15 +6,10 @@ import {
   InputAdornment,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { getMyBalance } from "src/api";
+import { useState } from "react";
 import { Magnify, Sort } from "mdi-material-ui";
 
 export default function TestPage() {
-  useEffect(() => {
-    getMyBalance("0x03E8614301A39a8c3B85B82d81e1F88BEA5D059f");
-  }, []);
-
   const [showSort, setShowSort] = useState(false);
 
   return (

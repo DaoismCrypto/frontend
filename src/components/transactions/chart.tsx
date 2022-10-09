@@ -1,5 +1,5 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
-import type { DataType } from "../../pages/transaction/buy/[id]";
+import type { DataType } from "../../pages/transaction/buy/[name]/[id]";
 
 const RenderLineChart = ({ data }: { data: DataType[] }) => {
   return (

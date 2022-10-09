@@ -67,8 +67,8 @@ const DataTable = () => {
                   <TableCell align="center">
                     <Link
                       href={{
-                        pathname: "/transaction/buy/[id]",
-                        query: { id: data.id },
+                        pathname: "/transaction/buy/[name]/[id]",
+                        query: { id: parseInt(data.id) - 1, name: data.name },
                       }}
                     >
                       Details
@@ -97,4 +97,3 @@ export default function BuySide() {
     </Card>
   );
 }
-
