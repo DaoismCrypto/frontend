@@ -1,6 +1,6 @@
 import { Button, Card, TextField, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react'
-import { changePrice } from '../api'
+import { changePrice, unlist, transferBack } from '../api'
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {
@@ -37,8 +37,21 @@ const BalanceCard = ({
   const [transactionType, setTransactionType] = useState('order')
   const [weight, setWeight] = useState(0)
 
+  const selectCorrectOption = (id: number) => {
+    switch (transactionType) {
+      case 'unlist':
+        return unlist(id)
+      case 'transfer back':
+        return transferBack(id)
+      case 'change price':
+        return changePrice(id, weight)
+      default:
+        return null
+    }
+  }
+
   return (
-    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px', maxWidth: 345 }}>
+    <Card sx={{ p: '16px', mb: 0, borderRadius: '15px' }}>
       <Stack alignItems='center' py={4} width='100%'>
         <Typography variant='h5'>{tokenName}</Typography>
         <Typography variant='h6'>{tokenSymbol}</Typography>
@@ -74,7 +87,7 @@ const BalanceCard = ({
             margin: '1rem'
           }}
           variant='outlined'
-          onClick={() => changePrice(tokenId, weight)}
+          onClick={() => selectCorrectOption(tokenId)}
         >{`Change ${tokenName}'s price to ${weight === NaN ? 0 : weight} ETH`}</Button>
       </Stack>
     </Card>
