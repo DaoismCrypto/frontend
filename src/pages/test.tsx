@@ -1,7 +1,17 @@
 import BalanceCard from '../components/BalanceCard'
 import { Grid, TextField, IconButton, InputAdornment, Typography, Modal, Divider, Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { getMyBalance, list, mint } from 'src/api'
+import {
+  getQuota,
+  list,
+  mint,
+  transferFrom,
+  getPrevOwner,
+  getSupply,
+  getUnit,
+  getTokenInfo,
+  getAllListedTokens
+} from 'src/api'
 import { Box, Close, Filter, Magnify, Sort } from 'mdi-material-ui'
 
 export default function TestPage() {
@@ -73,7 +83,14 @@ export default function TestPage() {
           <BalanceCard tokenName='Coin Name' tokenSymbol={'COIN'} />
         </Grid>
       </Grid>
-      <Button onClick={() => mint()}>test</Button>
+      <Button
+        onClick={() =>
+          // transferFrom('0xF2842fb04291d002d27F1E78279F65994870a0be', '0x9482C1abfdF380010A01217514bd99A801F4bE00', 0)
+          getAllListedTokens()
+        }
+      >
+        test
+      </Button>
     </>
   )
 }

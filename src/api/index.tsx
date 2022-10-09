@@ -6,7 +6,7 @@ import { isAddress } from 'ethers/lib/utils'
 const contractAddress = '0x617871c357C4335DF041737eA21E246aDe5317E7'
 const tokenMarketAddress = '0x039d83bbc8a0674950460658afF1CDA1c6103b24'
 const myAddress = '0xF2842fb04291d002d27F1E78279F65994870a0be'
-const gasLimit = 210000
+const gasLimit = 2100000
 
 // HackToken
 
@@ -69,27 +69,33 @@ export const transferFrom = async (addressFrom: string, addressTo: string, token
 // public HackToken contract function
 export const getTokenInfo = async (tokenId: number) => {
   const { contract } = await getContract(false, false)
-  await contract.getInfo(tokenId)
+  const info = await contract.getInfo(tokenId)
+  console.log(info)
+  return info
 }
 
 export const getPrevOwner = async (tokenId: number) => {
   const { contract } = await getContract(false, false)
-  await contract.getPrevOwner(tokenId)
+  const ownerId = await contract.getPrevOwner(tokenId)
+  console.log(ownerId)
 }
 
 export const getSupply = async (tokenId: number) => {
   const { contract } = await getContract(false, false)
-  await contract.getSupply(tokenId)
+  const supply = await contract.getSupply(tokenId)
+  console.log(supply)
 }
 
 export const getQuota = async (tokenId: number) => {
   const { contract } = await getContract(false, false)
-  await contract.getQuota(tokenId)
+  const quota = await contract.getQuota(tokenId)
+  console.log(quota)
 }
 
 export const getUnit = async (tokenId: number) => {
   const { contract } = await getContract(false, false)
-  await contract.getUnit(tokenId)
+  const unit = await contract.getUnit(tokenId)
+  console.log(unit)
 }
 
 // tokenMarket API
@@ -112,6 +118,18 @@ export const list = async (tokenId: number, price: number) => {
 export const unlist = async (tokenId: number) => {
   const { contract } = await getContract(true, true)
   await contract.unlist(tokenId, { gasLimit })
+}
+
+export const getAllListedTokens = async () => {
+  const { contract } = await getContract(false, true)
+  const tokens = await contract.getAllListedTokens()
+  const promises: Promise<string>[] = tokens.map((token: any) => {
+    // console.log(token)
+    return contract.getInfo(token)
+  })
+  Promise.all(promises).then(values => {
+    console.log(values)
+  })
 }
 
 // const fetcher =

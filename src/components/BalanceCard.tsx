@@ -1,5 +1,6 @@
 import { Button, Card, TextField, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react'
+import { changePrice } from '../api'
 
 const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   function handleChange(e: MouseEvent<HTMLElement>, value: string) {
@@ -24,7 +25,15 @@ const Toggle = ({ value, options, updateFn }: ToggleProps) => {
   )
 }
 
-const BalanceCard = ({ tokenName, tokenSymbol }: { tokenName: string; tokenSymbol: string }) => {
+const BalanceCard = ({
+  tokenName,
+  tokenSymbol,
+  tokenId
+}: {
+  tokenName: string
+  tokenSymbol: string
+  tokenId: number
+}) => {
   const [transactionType, setTransactionType] = useState('order')
   const [weight, setWeight] = useState(0)
 
@@ -65,6 +74,7 @@ const BalanceCard = ({ tokenName, tokenSymbol }: { tokenName: string; tokenSymbo
             margin: '1rem'
           }}
           variant='outlined'
+          onClick={() => changePrice(tokenId, weight)}
         >{`Change ${tokenName}'s price to ${weight === NaN ? 0 : weight} ETH`}</Button>
       </Stack>
     </Card>
