@@ -7,7 +7,7 @@ const hackTokenAddress = '0x3d33C785AcC4Ef00EB7eeEf97d452a0290249952'
 const tokenMarketAddress = '0xa56af4256da004D217239a0c87204938b9e95cA7'
 const myAddress = '0xF2842fb04291d002d27F1E78279F65994870a0be'
 const gasLimit = 2100000
-const ETH_VALUE_AS_STRING = "0.0101"
+const ETH_VALUE_AS_STRING = '0.0101'
 // HackToken
 
 // - mint(): takes gas
@@ -102,9 +102,8 @@ export const getUnit = async (tokenId: number) => {
 
 export const buyToken = async (tokenId: number, price: string) => {
   const { contract } = await getContract(true, true)
-  await contract.buyToken(tokenId, { gasLimit:gasLimit, value: ethers.utils.parseEther(price) })
+  await contract.buyToken(tokenId, { gasLimit: gasLimit, value: ethers.utils.parseEther(price) })
 }
-
 
 export const list = async (tokenId: number, price: number) => {
   const { contract } = await getContract(true, true)
@@ -121,12 +120,12 @@ export const transferBack = async (tokenId: number) => {
   await contract.transferBack(tokenId, { gasLimit })
 }
 
-export const getAllListedTokens = async () => {
+export const getAllListedToken = async () => {
   const { contract } = await getContract(false, true)
-  const tokens = await contract.getAllListedTokens()
+  const tokens = await contract.getAllListedToken()
   const promises: Promise<string>[] = tokens.map((token: any) => {
     // console.log(token)
-    return contract.getToken(token)
+    return getToken(token)
   })
   Promise.all(promises).then(values => {
     console.log(values)
@@ -136,13 +135,21 @@ export const getAllListedTokens = async () => {
 export const getUserTokens = async () => {
   const { contract } = await getContract(false, true)
   const tokens = await contract.getAllListedTokens()
-  const promises: Promise<string>[] = tokens.map((token: any) => {
-    return contract.getToken(token)
+  const promises: Promise<any>[] = tokens.map((token: any) => {
+    // return contract.getToken(token)
+    return getToken(token)
   })
   Promise.all(promises).then(values => {
     console.log(values)
     return values.filter(value => value.prevOwner === signerAddress)
   })
+}
+
+export const getToken = async (tokenId: number) => {
+  const { contract } = await getContract(false, false)
+  const token = await contract.getToken(tokenId)
+  console.log(token)
+  return token
 }
 
 // const fetcher =
